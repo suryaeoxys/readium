@@ -8,13 +8,6 @@ pipeline {
             }
         }
 
-        stage('Copy .env File') {
-            steps {
-                // Replace with the actual path to your local .env file on the Jenkins server
-                bat 'J:\Projects\readium\.env'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 bat 'composer install'
