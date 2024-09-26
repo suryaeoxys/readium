@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
+    stages {
         stage('Clone Repository') {
-           steps {
-             script {
-               git branch: 'main', url: 'https://github.com/suryaeoxys/readium.git'
-              }
+            steps {
+                script {
+                    git branch: 'main', url: 'https://github.com/suryaeoxys/readium.git'
+                }
             }
-         }
-
+        }
 
         stage('Install Dependencies') {
             steps {
@@ -18,11 +18,11 @@ pipeline {
 
         stage('Run Migrations') {
             steps {
-                bat 'php artisan migrate'
+                bat 'php artisan migrate --force'
             }
         }
 
-        // Add other stages like running tests, etc.
+        // You can add additional stages here, like running tests.
     }
 
     post {
