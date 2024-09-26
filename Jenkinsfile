@@ -1,12 +1,14 @@
 pipeline {
     agent any
 
-    stages {
         stage('Clone Repository') {
-            steps {
-                git 'https://github.com/suryaeoxys/readium.git'
+           steps {
+             script {
+               git branch: 'main', url: 'https://github.com/suryaeoxys/readium.git'
+              }
             }
-        }
+         }
+
 
         stage('Install Dependencies') {
             steps {
