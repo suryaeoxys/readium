@@ -12,13 +12,14 @@ pipeline {
         stage('Install Composer') {
             steps {
                 // Check if composer is installed, if not install it
-                bat """
+                bat '''
                 if not exist composer (
-                    curl -sS https://getcomposer.org/installer | php
+                    curl -sS https://getcomposer.org/installer -o composer-setup.php
+                    php composer-setup.php
                     move composer.phar C:/ProgramData/Jenkins/.jenkins/composer/composer.phar
-                    set PATH=%PATH%;C:/ProgramData/Jenkins/.jenkins/composer
+                    setx PATH "%PATH%;C:/ProgramData/Jenkins/.jenkins/composer"
                 )
-                """
+                '''
             }
         }
 
