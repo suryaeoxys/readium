@@ -2,36 +2,47 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                script {
-                    git branch: 'main', url: 'https://github.com/suryaeoxys/readium.git'
-                }
+                // Checkout the repository
+                git url: 'https://github.com/suryaeoxys/readium.git', branch: 'main'
+            }
+        }
+
+        stage('Install Composer') {
+            steps {
+                // Check if composer is installed, if not install it
+                bat """
+                if not exist composer (
+                    curl -sS https://getcomposer.org/installer | php
+                    move composer.phar C:/ProgramData/Jenkins/.jenkins/composer/composer.phar
+                    set PATH=%PATH%;C:/ProgramData/Jenkins/.jenkins/composer
+                )
+                """
             }
         }
 
         stage('Install Dependencies') {
             steps {
+                // Run composer install
                 bat 'composer install'
             }
         }
 
         stage('Run Migrations') {
             steps {
-                bat 'php artisan migrate --force'
+                // Run migrations
+                bat 'php artisan migrate'
             }
         }
-
-        // You can add additional stages here, like running tests.
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully.'
+            echo 'Pipeline succeeded!'
         }
         failure {
             echo 'Pipeline failed.'
         }
     }
 }
-
