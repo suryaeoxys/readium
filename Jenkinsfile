@@ -11,9 +11,9 @@ pipeline {
 
         stage('Install Composer') {
             steps {
-                // Check if composer is installed, if not install it
+                // Use the full path to cmd.exe to avoid errors
                 bat '''
-                if not exist C:/ProgramData/Jenkins/.jenkins/composer/composer.phar (
+                "C:\\Windows\\System32\\cmd.exe" /c if not exist C:/ProgramData/Jenkins/.jenkins/composer/composer.phar (
                     curl -sS https://getcomposer.org/installer -o composer-setup.php
                     C:/ProgramData/Jenkins/.jenkins/php.exe composer-setup.php --install-dir=C:/ProgramData/Jenkins/.jenkins/composer --filename=composer.phar
                     setx PATH "%PATH%;C:/ProgramData/Jenkins/.jenkins/composer"
