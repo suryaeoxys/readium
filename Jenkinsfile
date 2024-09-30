@@ -13,10 +13,9 @@ pipeline {
             steps {
                 // Check if composer is installed, if not install it
                 bat '''
-                if not exist composer (
+                if not exist C:/ProgramData/Jenkins/.jenkins/composer/composer.phar (
                     curl -sS https://getcomposer.org/installer -o composer-setup.php
-                    php composer-setup.php
-                    move composer.phar C:/ProgramData/Jenkins/.jenkins/composer/composer.phar
+                    C:/ProgramData/Jenkins/.jenkins/php.exe composer-setup.php --install-dir=C:/ProgramData/Jenkins/.jenkins/composer --filename=composer.phar
                     setx PATH "%PATH%;C:/ProgramData/Jenkins/.jenkins/composer"
                 )
                 '''
@@ -25,15 +24,8 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Run composer install
-                bat 'composer install --ignore-platform-reqs'
-            }
-        }
-
-        stage('Run Migrations') {
-            steps {
-                // Run migrations
-                bat 'php artisan migrate'
+                // Use the full path for Composer to install dependencies
+                bat 'C:/ProgramData/Jenkins/.jenkins/composer/composer.phar install --ignore-platform-reqs'
             }
         }
     }
