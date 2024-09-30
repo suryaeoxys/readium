@@ -26,7 +26,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Run composer install
-                bat 'composer install'
+                bat 'composer install --ignore-platform-reqs'
             }
         }
 
