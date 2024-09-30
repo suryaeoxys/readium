@@ -4,14 +4,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the repository
                 git url: 'https://github.com/suryaeoxys/readium.git', branch: 'main'
             }
         }
 
         stage('Install Composer') {
             steps {
-                // Use the full path to cmd.exe to avoid errors
+                // Explicitly call cmd.exe
                 bat '''
                 "C:\\Windows\\System32\\cmd.exe" /c if not exist C:/ProgramData/Jenkins/.jenkins/composer/composer.phar (
                     curl -sS https://getcomposer.org/installer -o composer-setup.php
@@ -24,7 +23,6 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Use the full path for Composer to install dependencies
                 bat 'C:/ProgramData/Jenkins/.jenkins/composer/composer.phar install --ignore-platform-reqs'
             }
         }
